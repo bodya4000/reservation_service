@@ -1,11 +1,11 @@
-package reservation.api.reservation.repository;
+package reservation.api.reservation.repository.hotelRepo;
 
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import reservation.api.reservation.dto.ClientDto;
-import reservation.api.reservation.dto.HotelDto;
-import reservation.api.reservation.dto.ReservationDto;
-import reservation.api.reservation.dto.RoomDto;
+import reservation.api.reservation.dto.client.ClientDto;
+import reservation.api.reservation.dto.hotel.HotelDto;
+import reservation.api.reservation.dto.reservation.ReservationReadHotelDto;
+import reservation.api.reservation.dto.room.RoomReadWithReservation;
 import reservation.api.reservation.model.Client;
 import reservation.api.reservation.model.Hotel;
 import reservation.api.reservation.model.Reservation;
@@ -44,26 +44,25 @@ public class HotelRepositoryImpl implements CustomHotelRepository {
 
     private HotelDto mapToHotelDto(Hotel hotel, List<Room> rooms) {
 
-        List<RoomDto> roomDtos = rooms.stream().map(this::mapToRoomDto).toList();
+        List<RoomReadWithReservation> roomDtos = rooms.stream().map(this::mapToRoomDto).toList();
 
         return new HotelDto(hotel.getName(), hotel.getLogoImg(), hotel.getAddress(), hotel.getRating(), hotel.getPopularity(), roomDtos);
     }
 
-    private RoomDto mapToRoomDto(Room room) {
+    private RoomReadWithReservation mapToRoomDto(Room room) {
 
-        List<ReservationDto> reservationDtos = room.getReservations().stream().map(this::mapToReservationDto).toList();
+        List<ReservationReadHotelDto> reservationReadDtos = room.getReservations().stream().map(this::mapToReservationDto).toList();
 
-        return new RoomDto(room.getId(), room.getStatus(), reservationDtos);
+        return new RoomReadWithReservation(room.getId(), room.getStatus(), reservationReadDtos);
     }
 
-    private ReservationDto mapToReservationDto(Reservation reservation) {
+    private ReservationReadHotelDto mapToReservationDto(Reservation reservation) {
 
         ClientDto clientDto = mapToClientDto(reservation.getClient());
 
-        return new ReservationDto(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), clientDto);
+        return new ReservationReadHotelDto(reservation.getId(), reservation.getStartDate(), reservation.getEndDate(), clientDto);
     }
-
     private ClientDto mapToClientDto(Client client) {
-        return new ClientDto(client.getFirstName(), client.getLastName());
+        return new ClientDto(client.getId(), client.getFirstName(), client.getLastName());
     }
 }

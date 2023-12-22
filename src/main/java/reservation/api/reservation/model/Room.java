@@ -1,13 +1,10 @@
 package reservation.api.reservation.model;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import lombok.*;
-import reservation.api.reservation.dto.Status;
+import reservation.api.reservation.dto.room.Status;
 
 import java.util.List;
 

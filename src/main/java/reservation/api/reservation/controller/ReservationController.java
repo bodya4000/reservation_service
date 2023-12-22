@@ -2,8 +2,9 @@ package reservation.api.reservation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reservation.api.reservation.dto.HotelDto;
-import reservation.api.reservation.model.Reservation;
+import reservation.api.reservation.dto.reservation.ReservationCreateDto;
+import reservation.api.reservation.dto.reservation.ReservationReadDto;
+import reservation.api.reservation.exceptions.NotFoundIdException;
 import reservation.api.reservation.service.ReservationService;
 
 @RestController
@@ -14,9 +15,13 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping
-    public void createReservation(@RequestBody Reservation reservation){
-        reservationService.save(reservation);
+    public void createReservation(@RequestBody ReservationCreateDto reservationCreateDto) throws NotFoundIdException {
+        reservationService.parseAndSaveFrontReservationDto(reservationCreateDto);
     }
 
+    @GetMapping("{id}")
+    public ReservationReadDto getById(@PathVariable("id") Long id) throws NotFoundIdException {
+        return reservationService.getById(id);
+    }
 
 }

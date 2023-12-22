@@ -2,10 +2,9 @@ package reservation.api.reservation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import reservation.api.reservation.dto.HotelDto;
+import reservation.api.reservation.dto.hotel.HotelDto;
 import reservation.api.reservation.model.Hotel;
-import reservation.api.reservation.model.Reservation;
-import reservation.api.reservation.repository.HotelRepository;
+import reservation.api.reservation.repository.hotelRepo.HotelRepository;
 import reservation.api.reservation.service.HotelService;
 
 @RestController
